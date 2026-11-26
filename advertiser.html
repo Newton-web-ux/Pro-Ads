@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pro Ads · Advertiser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f3ef;--card:#fff;--ink:#14161a;--muted:#6b7078;--line:#e6e4dd;
+  --accent:#3340d6;--accent-soft:#eceefc;--ok:#12805c;--ok-soft:#e3f4ed;
+  --warn:#b26a00;--warn-soft:#fdf1dc;--bad:#c23b32;--bad-soft:#fbe8e6;
+  --side:#14161a;--radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.brand{font-family:'Syne',sans-serif;letter-spacing:-.01em}
+.mono{font-family:'DM Mono',monospace}
+.hidden{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+
+/* Layout */
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+.side{background:var(--side);color:#e8e9ec;padding:22px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+.brand{font-size:20px;font-weight:800;color:#fff;padding:2px 10px 18px;display:flex;align-items:center;gap:8px}
+.brand i{width:22px;height:22px;border-radius:6px;background:var(--accent);display:inline-block}
+.brand small{font-family:'DM Sans';font-size:10px;font-weight:600;letter-spacing:.08em;color:#9aa0ab;text-transform:uppercase;margin-left:2px}
+.nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;color:#b9bec8;text-decoration:none;font-weight:500}
+.nav a:hover{background:#1f2227;color:#fff}
+.nav a.on{background:#262a31;color:#fff}
+.nav svg{width:17px;height:17px;flex:none}
+.side .spacer{flex:1}
+.who{border-top:1px solid #262a31;padding:14px 10px 4px;font-size:12px;color:#9aa0ab}
+.who b{display:block;color:#fff;font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who a{color:#9aa0ab;cursor:pointer;text-decoration:underline}
+.swap{display:block;margin:6px 0 2px;color:#c7cbff!important}
+main{padding:28px 34px 60px;max-width:1280px;width:100%}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.head h1{font-size:26px;font-weight:700}
+.head p{color:var(--muted);margin-top:2px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* Components */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.card h3{font-size:15px;font-weight:700;margin-bottom:12px}
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:14px}
+.kpi .l{color:var(--muted);font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.kpi .v{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;margin-top:6px;letter-spacing:-.02em}
+.kpi .s{color:var(--muted);font-size:12px;margin-top:2px}
+.btn{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:8px;font-weight:600;transition:.15s}
+.btn:hover{border-color:#c9c7bf;background:#fafaf8}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn.sm{padding:5px 10px;font-size:12px}
+.btn.danger{color:var(--bad)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--muted)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;text-transform:capitalize}
+.b-active{background:var(--ok-soft);color:var(--ok)}
+.b-paused{background:var(--warn-soft);color:var(--warn)}
+.b-completed{background:#ececf1;color:#555a66}
+.b-pending{background:var(--warn-soft);color:var(--warn)}
+.b-paid{background:var(--ok-soft);color:var(--ok)}
+.b-rejected{background:var(--bad-soft);color:var(--bad)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 10px;border-bottom:1px solid #f0eee8;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-family:'DM Mono',monospace;font-size:13px}
+.tw{overflow-x:auto}
+.name b{display:block;font-weight:600}
+.name span{color:var(--muted);font-size:12px}
+.bar{height:5px;background:#eeece6;border-radius:9px;overflow:hidden;margin-top:5px;min-width:90px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:9px}
+.empty{text-align:center;padding:42px 12px;color:var(--muted)}
+.empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+input[type=text],input[type=email],input[type=password],input[type=number],input[type=date],input[type=url],select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 11px;outline:none;transition:.15s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+textarea{resize:vertical;min-height:70px}
+label{display:block;font-size:12px;font-weight:600;color:#3d4148;margin-bottom:5px}
+.f{margin-bottom:14px}
+.f small{color:var(--muted);font-size:11px;float:right;font-weight:400}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chartbox{height:280px;position:relative}
+
+/* Modal + toasts */
+.overlay{position:fixed;inset:0;background:rgba(20,22,26,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;overflow:auto}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:900px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.modal.sm{max-width:480px}
+.mh{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:2}
+.mh h2{font-size:18px}
+.mb{padding:22px;display:grid;grid-template-columns:1.15fr 1fr;gap:26px}
+.mb.one{grid-template-columns:1fr}
+.mf{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:#fff}
+.pv{background:#f0efea;border-radius:12px;padding:18px;position:sticky;top:76px}
+.pv h4{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+.x{border:0;background:none;font-size:22px;line-height:1;color:var(--muted)}
+#toasts{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:90}
+.toast{background:var(--ink);color:#fff;padding:11px 16px;border-radius:10px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.25);animation:in .2s}
+.toast.err{background:var(--bad)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+
+/* Auth */
+.auth{min-height:100vh;display:grid;place-items:center;padding:20px}
+.auth .box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;width:100%;max-width:400px}
+.auth h1{font-size:26px;margin:6px 0 4px}
+.auth p.sub{color:var(--muted);margin-bottom:22px}
+.auth .brand{color:var(--ink);padding:0 0 10px}
+.auth .or{text-align:center;color:var(--muted);font-size:12px;margin:14px 0}
+.auth .sw{text-align:center;margin-top:16px;color:var(--muted)}
+.auth .sw a{color:var(--accent);cursor:pointer;font-weight:600}
+.err-line{color:var(--bad);font-size:12px;min-height:18px;margin-bottom:8px}
+.skel{height:92px;border-radius:12px;background:linear-gradient(90deg,#ecebe5 25%,#f5f4ef 50%,#ecebe5 75%);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+
+@media(max-width:860px){
+  .app{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;align-items:center;flex-wrap:wrap;padding:12px}
+  .brand{padding:0 10px 0 4px}.who,.side .spacer{display:none}
+  .nav{display:flex;gap:2px;flex-wrap:wrap}
+  main{padding:20px 16px 50px}
+  .mb{grid-template-columns:1fr}.pv{position:static}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ AUTH ============ -->
+<div id="auth" class="auth hidden"></div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="app hidden">
+  <aside class="side">
+    <div class="brand"><i></i>Pro Ads <small>Advertiser</small></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="spacer"></div>
+    <div class="who" id="who"></div>
+  </aside>
+  <main id="view"></main>
+</div>
+
+<div id="modal"></div>
+<div id="toasts"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+/* =====================================================================
+   CONFIG — fill these in
+   ===================================================================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyCpxW6vMzAcDor8LbPv7pH4WH7NKMGL8Ls",
+  authDomain: "pro-ads-4ffce.firebaseapp.com",
+  projectId: "pro-ads-4ffce",
+  storageBucket: "pro-ads-4ffce.firebasestorage.app",
+  messagingSenderId: "644579940361",
+  appId: "1:644579940361:web:38133781b69657b8ad80d8"
+};
+  gasUrl:   'https://script.google.com/macros/s/AKfycbx2_ze9Bm5zb09ygy28MAsi3rfaB5yV7ka7PVWyLR_OOmXUhwNKsyAmhuuFw_xI3W1yBg/exec',
+  currency: 'INR',
+  publisherUrl: 'publisher.html'
+};
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = {
+  n: v => new Intl.NumberFormat('en-IN', { notation: v >= 1e6 ? 'compact' : 'standard', maximumFractionDigits: 1 }).format(v || 0),
+  m: (v, d = 2) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: CONFIG.currency, minimumFractionDigits: d, maximumFractionDigits: d }).format(v || 0),
+  p: v => (v || 0).toFixed(2) + '%',
+  d: s => { const d = new Date(s); return isNaN(d) ? '—' : d.toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+};
+const ctr = (c, i) => i ? c / i * 100 : 0;
+const todayStr = () => new Date().toLocaleDateString('en-CA');
+const SIZES = ['300x250', '728x90', '320x50', '160x600', '300x600'];
+const CATEGORIES = ['any', 'technology', 'education', 'finance', 'lifestyle', 'gaming', 'news', 'health'];
+
+function toast(msg, type = '') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type; t.textContent = msg;
+  $('#toasts').appendChild(t);
+  setTimeout(() => t.remove(), 3800);
+}
+
+/* ---------- API (Google Apps Script) ---------- */
+async function api(action, payload = {}) {
+  const user = firebase.auth().currentUser;
+  if (!user) throw new Error('Not signed in');
+  const token = await user.getIdToken();
+  const res = await fetch(CONFIG.gasUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },   // simple request: no CORS preflight
+    body: JSON.stringify({ action, token, ...payload })
+  });
+  const j = await res.json();
+  if (!j.ok) throw new Error(j.error || 'Request failed');
+  return j.data;
+}
+
+/* ---------- Ad renderer (mirrors proads.js) ---------- */
+function adHTML(a, size) {
+  const [w, h] = size.split('x').map(Number), wide = w / h >= 3, tiny = h <= 60;
+  const f = 'font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;';
+  const img = a.imageUrl ? `<img src="${esc(a.imageUrl)}" alt="" referrerpolicy="no-referrer" style="${wide ? `width:${h - 16}px;height:${h - 16}px;border-radius:6px;` : `width:100%;height:${Math.round(h * (h > 400 ? .34 : .46))}px;`}object-fit:cover;flex:none;display:block">` : '';
+  const cta = `<span style="background:#3340d6;color:#fff;font-size:12px;font-weight:600;padding:${tiny ? '5px 9px' : '7px 12px'};border-radius:6px;white-space:nowrap;display:inline-block">Learn more</span>`;
+  const tag = `<span style="position:absolute;top:3px;right:4px;font-size:9px;color:#8a8f98;background:rgba(255,255,255,.85);padding:1px 4px;border-radius:3px;letter-spacing:.04em">AD</span>`;
+  const box = `position:relative;box-sizing:border-box;width:${w}px;height:${h}px;overflow:hidden;background:#fff;border:1px solid #e3e3e3;border-radius:8px;${f}`;
+  if (wide) return `<div style="${box}display:flex;align-items:center;gap:10px;padding:8px 10px">${img}<div style="flex:1;min-width:0"><div style="font-size:${tiny ? 13 : 15}px;font-weight:700;color:#14161a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(a.title)}</div>${tiny ? '' : `<div style="font-size:12px;color:#5b6068;margin-top:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${esc(a.body)}</div>`}</div>${cta}${tag}</div>`;
+  return `<div style="${box}display:flex;flex-direction:column">${img}<div style="padding:12px;display:flex;flex-direction:column;gap:6px;flex:1;min-height:0"><div style="font-size:16px;font-weight:700;color:#14161a;line-height:1.25">${esc(a.title)}</div><div style="font-size:13px;color:#5b6068;line-height:1.4;overflow:hidden;flex:1">${esc(a.body)}</div><div>${cta}</div></div>${tag}</div>`;
+}
+function previewHTML(c) {
+  const size = c.size || '300x250', [w, h] = size.split('x').map(Number);
+  const k = Math.min(1, 420 / w, 300 / h);
+  const ad = { title: c.title || 'Your headline', body: c.body || 'Your ad description appears here.', imageUrl: c.imageUrl };
+  return `<div style="width:${w * k}px;height:${h * k}px"><div style="transform:scale(${k});transform-origin:0 0;width:${w}px;height:${h}px">${adHTML(ad, size)}</div></div>`;
+}
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const S = {
+  authMode: 'signin', pendingName: '',
+  user: null, view: 'overview', days: 14, metric: 'spend',
+  campaigns: [], stats: null, tx: [],
+  filter: 'all', q: '', draft: null, busy: false
+};
+let chart = null;
+
+/* =====================================================================
+   AUTH
+   ===================================================================== */
+firebase.initializeApp(CONFIG.firebase);
+const auth = firebase.auth();
+
+function renderAuth(err = '') {
+  const up = S.authMode === 'signup';
+  $('#auth').innerHTML = `
+    <div class="box">
+      <div class="brand"><i></i>Pro Ads <small>Advertiser</small></div>
+      <h1>${up ? 'Create your account' : 'Welcome back'}</h1>
+      <p class="sub">${up ? 'Launch campaigns and reach publishers in minutes.' : 'Sign in to manage your campaigns.'}</p>
+      <form id="authForm" autocomplete="on">
+        ${up ? `<div class="f"><label>Full name</label><input type="text" name="name" required autocomplete="name"></div>` : ''}
+        <div class="f"><label>Email</label><input type="email" name="email" required autocomplete="email"></div>
+        <div class="f"><label>Password</label><input type="password" name="password" required minlength="6" autocomplete="${up ? 'new-password' : 'current-password'}"></div>
+        <div class="err-line" id="authErr">${esc(err)}</div>
+        <button class="btn pri" style="width:100%" type="submit">${up ? 'Create account' : 'Sign in'}</button>
+      </form>
+      <div class="or">or</div>
+      <button class="btn" style="width:100%" data-action="google">Continue with Google</button>
+      <div class="sw">
+        ${up ? 'Already have an account? <a data-action="authmode" data-mode="signin">Sign in</a>'
+             : 'New here? <a data-action="authmode" data-mode="signup">Create an account</a> · <a data-action="reset">Forgot password</a>'}
+      </div>
+    </div>`;
+}
+const friendly = e => ({
+  'auth/invalid-credential': 'Incorrect email or password.',
+  'auth/user-not-found': 'No account found for that email.',
+  'auth/wrong-password': 'Incorrect email or password.',
+  'auth/email-already-in-use': 'An account with that email already exists.',
+  'auth/weak-password': 'Password must be at least 6 characters.',
+  'auth/popup-closed-by-user': 'Sign-in was cancelled.'
+}[e.code] || e.message);
+
+auth.onAuthStateChanged(async u => {
+  if (!u) {
+    S.user = null;
+    $('#app').classList.add('hidden');
+    $('#auth').classList.remove('hidden');
+    renderAuth();
+    return;
+  }
+  try {
+    const r = await api('init', { name: S.pendingName || u.displayName || '' });
+    S.user = r.user;
+    $('#auth').classList.add('hidden');
+    $('#app').classList.remove('hidden');
+    route();
+    await refresh();
+  } catch (e) {
+    toast(e.message, 'err');
+    auth.signOut();
+  }
+});
+
+/* =====================================================================
+   DATA
+   ===================================================================== */
+async function refresh(silent = false) {
+  if (!silent) { S.busy = true; render(); }
+  try {
+    const [campaigns, stats, tx] = await Promise.all([
+      api('adv.campaigns'), api('adv.stats', { days: S.days }), api('adv.transactions')
+    ]);
+    S.campaigns = campaigns; S.stats = stats; S.tx = tx;
+    S.user.balance = stats.balance;
+  } catch (e) { toast(e.message, 'err'); }
+  S.busy = false;
+  render();
+}
+
+/* =====================================================================
+   VIEWS
+   ===================================================================== */
+const ICONS = {
+  overview: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10m6 10V4m6 16v-7m4 7H2"/></svg>',
+  campaigns: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l16-7v16L3 13zM7 14v5"/></svg>',
+  billing: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg>'
+};
+const NAV = [['overview', 'Overview'], ['campaigns', 'Campaigns'], ['billing', 'Billing']];
+
+function route() {
+  const h = location.hash.replace('#', '');
+  S.view = NAV.some(n => n[0] === h) ? h : 'overview';
+  render();
+}
+window.addEventListener('hashchange', route);
+
+function render() {
+  if (!S.user) return;
+  $('#nav').innerHTML = NAV.map(([k, l]) => `<a href="#${k}" class="${S.view === k ? 'on' : ''}">${ICONS[k]}${l}</a>`).join('');
+  $('#who').innerHTML = `<b>${esc(S.user.name)}</b>${esc(S.user.email)}
+    <a class="swap" href="${CONFIG.publisherUrl}">Switch to Publisher →</a>
+    <a data-action="logout">Sign out</a>`;
+  const v = $('#view');
+  if (S.busy && !S.stats) { v.innerHTML = `<div class="grid kpis">${'<div class="skel"></div>'.repeat(4)}</div><div class="skel" style="height:300px"></div>`; return; }
+  v.innerHTML = ({ overview: vOverview, campaigns: vCampaigns, billing: vBilling })[S.view]();
+  if (S.view === 'overview') drawChart();
+}
+
+function vOverview() {
+  const st = S.stats; if (!st) return '';
+  const t = st.totals, c = ctr(t.clicks, t.impressions);
+  const cpc = t.clicks ? t.spend / t.clicks : 0, ecpm = t.impressions ? t.spend / t.impressions * 1000 : 0;
+  const top = S.campaigns.map(x => ({ ...x, p: st.byCampaign[x.id] || { impressions: 0, clicks: 0, spend: 0 } }))
+    .sort((a, b) => b.p.spend - a.p.spend).slice(0, 5);
+  return `
+  <div class="head">
+    <div><h1>Overview</h1><p>Performance across all your campaigns.</p></div>
+    <div class="row">
+      ${[7, 14, 30, 90].map(d => `<button class="chip ${S.days === d ? 'on' : ''}" data-action="range" data-days="${d}">${d}d</button>`).join('')}
+      <button class="btn pri" data-action="new">+ New campaign</button>
+    </div>
+  </div>
+  <div class="grid kpis">
+    <div class="card kpi"><div class="l">Balance</div><div class="v">${fmt.m(st.balance)}</div><div class="s"><a href="#billing" style="color:var(--accent);font-weight:600;text-decoration:none">Add funds</a></div></div>
+    <div class="card kpi"><div class="l">Spend</div><div class="v">${fmt.m(t.spend)}</div><div class="s">Last ${S.days} days</div></div>
+    <div class="card kpi"><div class="l">Impressions</div><div class="v">${fmt.n(t.impressions)}</div><div class="s">eCPM ${fmt.m(ecpm)}</div></div>
+    <div class="card kpi"><div class="l">Clicks</div><div class="v">${fmt.n(t.clicks)}</div><div class="s">Avg. CPC ${fmt.m(cpc)}</div></div>
+    <div class="card kpi"><div class="l">CTR</div><div class="v">${fmt.p(c)}</div><div class="s">Clicks / impressions</div></div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="row" style="justify-content:space-between;margin-bottom:10px">
+      <h3 style="margin:0">Trend</h3>
+      <div class="row">${['spend', 'impressions', 'clicks'].map(m => `<button class="chip ${S.metric === m ? 'on' : ''}" data-action="metric" data-m="${m}">${m[0].toUpperCase() + m.slice(1)}</button>`).join('')}</div>
+    </div>
+    <div class="chartbox"><canvas id="chart"></canvas></div>
+  </div>
+  <div class="card">
+    <h3>Top campaigns <span style="color:var(--muted);font-weight:400">· by spend, last ${S.days} days</span></h3>
+    ${top.length ? `<div class="tw"><table>
+      <thead><tr><th>Campaign</th><th>Status</th><th class="num">Spend</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">CTR</th></tr></thead>
+      <tbody>${top.map(x => `<tr>
+        <td class="name"><b>${esc(x.name)}</b><span>${x.model} · ${esc(x.size)}</span></td>
+        <td><span class="badge b-${x.status}">${x.status}</span></td>
+        <td class="num">${fmt.m(x.p.spend)}</td><td class="num">${fmt.n(x.p.impressions)}</td>
+        <td class="num">${fmt.n(x.p.clicks)}</td><td class="num">${fmt.p(ctr(x.p.clicks, x.p.impressions))}</td></tr>`).join('')}</tbody>
+    </table></div>` : `<div class="empty"><b>No campaigns yet</b>Create your first campaign to start reaching publishers.</div>`}
+  </div>`;
+}
+
+function drawChart() {
+  const el = $('#chart'); if (!el || !S.stats) return;
+  if (chart) chart.destroy();
+  const s = S.stats.series, m = S.metric, isMoney = m === 'spend';
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+  chart = new Chart(el, {
+    type: m === 'spend' ? 'line' : 'bar',
+    data: {
+      labels: s.map(x => x.date.slice(5)),
+      datasets: [{
+        label: m, data: s.map(x => x[m]),
+        borderColor: accent, backgroundColor: m === 'spend' ? accent + '18' : accent + 'bb',
+        fill: m === 'spend', tension: .35, borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => isMoney ? fmt.m(c.parsed.y) : fmt.n(c.parsed.y) } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { maxTicksLimit: 10, font: { family: 'DM Mono', size: 11 } } },
+        y: { beginAtZero: true, grid: { color: '#eeece6' }, ticks: { font: { family: 'DM Mono', size: 11 }, callback: v => isMoney ? fmt.m(v, 0) : fmt.n(v) } }
+      }
+    }
+  });
+}
+
+function vCampaigns() {
+  const counts = { all: S.campaigns.length };
+  S.campaigns.forEach(c => counts[c.status] = (counts[c.status] || 0) + 1);
+  const q = S.q.toLowerCase();
+  const list = S.campaigns.filter(c => (S.filter === 'all' || c.status === S.filter) && (!q || c.name.toLowerCase().includes(q)));
+  return `
+  <div class="head">
+    <div><h1>Campaigns</h1><p>Create, edit and control delivery.</p></div>
+    <button class="btn pri" data-action="new">+ New campaign</button>
+  </div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <div class="row">${['all', 'active', 'paused', 'completed'].map(f => `<button class="chip ${S.filter === f ? 'on' : ''}" data-action="filter" data-f="${f}">${f[0].toUpperCase() + f.slice(1)} ${counts[f] || 0}</button>`).join('')}</div>
+      <input type="text" id="search" placeholder="Search campaigns…" value="${esc(S.q)}" style="max-width:240px">
+    </div>
+    ${list.length ? `<div class="tw"><table>
+      <thead><tr><th>Campaign</th><th>Status</th><th>Bid</th><th>Budget</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">CTR</th><th></th></tr></thead>
+      <tbody>${list.map(c => {
+        const pct = Math.min(100, c.totalBudget ? c.spent / c.totalBudget * 100 : 0);
+        const canToggle = c.status === 'active' || c.status === 'paused';
+        return `<tr>
+        <td class="name"><b>${esc(c.name)}</b><span>${esc(c.size)} · ${esc(c.category)} · ${esc(c.startDate)}${c.endDate ? ' → ' + esc(c.endDate) : ''}</span></td>
+        <td><span class="badge b-${c.status}">${c.status}</span></td>
+        <td class="mono" style="font-size:13px">${fmt.m(c.bid)} <span style="color:var(--muted)">${c.model}</span></td>
+        <td style="min-width:150px"><span class="mono" style="font-size:12px">${fmt.m(c.spent)} / ${fmt.m(c.totalBudget, 0)}</span><div class="bar"><i style="width:${pct}%"></i></div></td>
+        <td class="num">${fmt.n(c.impressions)}</td><td class="num">${fmt.n(c.clicks)}</td><td class="num">${fmt.p(ctr(c.clicks, c.impressions))}</td>
+        <td style="white-space:nowrap;text-align:right">
+          ${canToggle ? `<button class="btn sm" data-action="toggle" data-id="${c.id}" data-to="${c.status === 'active' ? 'paused' : 'active'}">${c.status === 'active' ? 'Pause' : 'Resume'}</button>` : ''}
+          <button class="btn sm" data-action="edit" data-id="${c.id}">Edit</button>
+          <button class="btn sm danger" data-action="archive" data-id="${c.id}">Archive</button>
+        </td></tr>`;
+      }).join('')}</tbody></table></div>`
+      : `<div class="empty"><b>${S.campaigns.length ? 'No campaigns match' : 'No campaigns yet'}</b>${S.campaigns.length ? 'Try a different filter or search.' : 'Click “New campaign” to get started.'}</div>`}
+  </div>`;
+}
+
+function vBilling() {
+  return `
+  <div class="head"><div><h1>Billing</h1><p>Prepaid balance. Campaigns pause automatically when funds run out.</p></div></div>
+  <div class="grid" style="grid-template-columns:minmax(260px,360px) 1fr;align-items:start">
+    <div class="card">
+      <div class="kpi"><div class="l">Available balance</div><div class="v" style="font-size:30px">${fmt.m(S.user.balance)}</div></div>
+      <form id="fundsForm" style="margin-top:18px">
+        <div class="f"><label>Add funds (${CONFIG.currency})</label><input type="number" name="amount" id="amount" min="1" step="1" placeholder="e.g. 5000" required></div>
+        <div class="row" style="margin-bottom:14px">${[500, 1000, 5000, 10000].map(a => `<button type="button" class="chip" data-action="quick" data-a="${a}">${fmt.m(a, 0)}</button>`).join('')}</div>
+        <button class="btn pri" style="width:100%" type="submit">Add funds</button>
+        <p style="color:var(--muted);font-size:11px;margin-top:10px">Demo top-up. Connect a payment gateway in <span class="mono">adv.addFunds</span> (Code.gs) for real payments.</p>
+      </form>
+    </div>
+    <div class="card">
+      <h3>Transactions</h3>
+      ${S.tx.length ? `<div class="tw"><table><thead><tr><th>Date</th><th>Type</th><th>Note</th><th class="num">Amount</th></tr></thead>
+      <tbody>${S.tx.map(t => `<tr><td>${fmt.d(t.ts)}</td><td style="text-transform:capitalize">${esc(t.type)}</td><td>${esc(t.note)}</td><td class="num" style="color:${t.amount >= 0 ? 'var(--ok)' : 'var(--bad)'}">${t.amount >= 0 ? '+' : ''}${fmt.m(t.amount)}</td></tr>`).join('')}</tbody></table></div>`
+      : `<div class="empty"><b>No transactions yet</b>Deposits will appear here.</div>`}
+    </div>
+  </div>`;
+}
+
+/* =====================================================================
+   CAMPAIGN EDITOR
+   ===================================================================== */
+const blank = () => ({
+  name: '', model: 'CPC', bid: 5, dailyBudget: 500, totalBudget: 5000,
+  size: '300x250', category: 'any', startDate: todayStr(), endDate: '',
+  title: '', body: '', imageUrl: '', targetUrl: 'https://'
+});
+
+function openEditor(id) {
+  const c = id ? S.campaigns.find(x => x.id === id) : null;
+  S.draft = c ? { ...c } : blank();
+  const d = S.draft;
+  const opt = (arr, v) => arr.map(x => `<option value="${x}" ${x === v ? 'selected' : ''}>${x}</option>`).join('');
+  $('#modal').innerHTML = `
+  <div class="overlay"><div class="modal" role="dialog" aria-modal="true">
+    <div class="mh"><h2>${c ? 'Edit campaign' : 'New campaign'}</h2><button class="x" data-action="close" aria-label="Close">×</button></div>
+    <div class="mb">
+      <div>
+        <div class="f"><label>Campaign name</label><input type="text" data-field="name" maxlength="60" value="${esc(d.name)}" placeholder="Diwali sale — retargeting"></div>
+        <div class="cols2">
+          <div class="f"><label>Pricing model</label><select data-field="model"><option value="CPC" ${d.model === 'CPC' ? 'selected' : ''}>CPC — pay per click</option><option value="CPM" ${d.model === 'CPM' ? 'selected' : ''}>CPM — pay per 1,000 views</option></select></div>
+          <div class="f"><label>Bid (${CONFIG.currency}) <small id="bidHint"></small></label><input type="number" data-field="bid" min="0.01" step="0.01" value="${d.bid}"></div>
+        </div>
+        <div class="cols2">
+          <div class="f"><label>Daily budget</label><input type="number" data-field="dailyBudget" min="1" step="1" value="${d.dailyBudget}"></div>
+          <div class="f"><label>Total budget</label><input type="number" data-field="totalBudget" min="1" step="1" value="${d.totalBudget}"></div>
+        </div>
+        <div class="cols2">
+          <div class="f"><label>Ad size</label><select data-field="size">${opt(SIZES, d.size)}</select></div>
+          <div class="f"><label>Category</label><select data-field="category">${opt(CATEGORIES, d.category)}</select></div>
+        </div>
+        <div class="cols2">
+          <div class="f"><label>Start date</label><input type="date" data-field="startDate" value="${esc(d.startDate)}"></div>
+          <div class="f"><label>End date <small>optional</small></label><input type="date" data-field="endDate" value="${esc(d.endDate)}"></div>
+        </div>
+        <div class="f"><label>Headline <small data-count="title">${(d.title || '').length}/40</small></label><input type="text" data-field="title" maxlength="40" value="${esc(d.title)}"></div>
+        <div class="f"><label>Description <small data-count="body">${(d.body || '').length}/90</small></label><textarea data-field="body" maxlength="90">${esc(d.body)}</textarea></div>
+        <div class="f"><label>Image URL <small>optional · https</small></label><input type="url" data-field="imageUrl" value="${esc(d.imageUrl)}" placeholder="https://…/banner.jpg"></div>
+        <div class="f"><label>Landing page URL</label><input type="url" data-field="targetUrl" value="${esc(d.targetUrl)}"></div>
+      </div>
+      <div><div class="pv"><h4>Live preview · <span id="pvSize">${esc(d.size)}</span></h4><div id="pv">${previewHTML(d)}</div></div></div>
+    </div>
+    <div class="mf"><button class="btn" data-action="close">Cancel</button><button class="btn pri" data-action="save" id="saveBtn">${c ? 'Save changes' : 'Create campaign'}</button></div>
+  </div></div>`;
+  hint();
+}
+function hint() {
+  const d = S.draft, el = $('#bidHint'); if (!el) return;
+  const bid = Number(d.bid) || 0;
+  el.textContent = d.model === 'CPM' ? `${fmt.m(bid / 1000, 4)} / view` : `${fmt.m(bid * 1000 * .01)} / 1,000 views @ 1% CTR`;
+}
+function updatePreview() {
+  const d = S.draft;
+  $('#pv').innerHTML = previewHTML(d); $('#pvSize').textContent = d.size;
+  ['title', 'body'].forEach(k => { const el = $(`[data-count="${k}"]`); if (el) el.textContent = `${(d[k] || '').length}/${k === 'title' ? 40 : 90}`; });
+  hint();
+}
+function validate(d) {
+  const num = k => Number(d[k]);
+  if (!d.name.trim()) return 'Enter a campaign name.';
+  if (!(num('bid') > 0)) return 'Bid must be greater than zero.';
+  if (!(num('dailyBudget') > 0) || !(num('totalBudget') > 0)) return 'Budgets must be greater than zero.';
+  if (num('totalBudget') < num('dailyBudget')) return 'Total budget must be at least the daily budget.';
+  if (!d.startDate) return 'Choose a start date.';
+  if (d.endDate && d.endDate < d.startDate) return 'End date must be after the start date.';
+  if (!d.title.trim()) return 'Enter a headline.';
+  if (!d.body.trim()) return 'Enter a description.';
+  if (d.imageUrl && !/^https:\/\//i.test(d.imageUrl)) return 'Image URL must start with https://';
+  if (!/^https?:\/\/.+\..+/i.test(d.targetUrl)) return 'Enter a valid landing page URL.';
+  return '';
+}
+function closeModal() { $('#modal').innerHTML = ''; S.draft = null; }
+
+/* =====================================================================
+   EVENTS (delegated)
+   ===================================================================== */
+const actions = {
+  authmode: t => { S.authMode = t.dataset.mode; renderAuth(); },
+  google: async () => { try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); } catch (e) { renderAuth(friendly(e)); } },
+  reset: async () => {
+    const email = prompt('Enter your account email:'); if (!email) return;
+    try { await auth.sendPasswordResetEmail(email.trim()); toast('Password reset email sent.'); } catch (e) { toast(friendly(e), 'err'); }
+  },
+  logout: () => auth.signOut(),
+  range: async t => { S.days = +t.dataset.days; await refresh(true); },
+  metric: t => { S.metric = t.dataset.m; render(); },
+  filter: t => { S.filter = t.dataset.f; render(); },
+  new: () => openEditor(),
+  edit: t => openEditor(t.dataset.id),
+  close: closeModal,
+  quick: t => { $('#amount').value = t.dataset.a; },
+  toggle: async t => {
+    try { await api('adv.status', { id: t.dataset.id, status: t.dataset.to }); toast(t.dataset.to === 'active' ? 'Campaign resumed.' : 'Campaign paused.'); await refresh(true); }
+    catch (e) { toast(e.message, 'err'); }
+  },
+  archive: async t => {
+    if (!confirm('Archive this campaign? Delivery stops and it is removed from your list. Reporting history is kept.')) return;
+    try { await api('adv.archive', { id: t.dataset.id }); toast('Campaign archived.'); await refresh(true); }
+    catch (e) { toast(e.message, 'err'); }
+  },
+  save: async t => {
+    const d = S.draft, err = validate(d);
+    if (err) return toast(err, 'err');
+    t.disabled = true; t.textContent = 'Saving…';
+    try {
+      await api('adv.save', { campaign: { ...d, bid: +d.bid, dailyBudget: +d.dailyBudget, totalBudget: +d.totalBudget } });
+      closeModal(); toast('Campaign saved.'); await refresh(true);
+    } catch (e) { toast(e.message, 'err'); t.disabled = false; t.textContent = 'Save'; }
+  }
+};
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-action]');
+  if (t && actions[t.dataset.action]) { e.preventDefault(); actions[t.dataset.action](t); return; }
+  if (e.target.classList.contains('overlay')) closeModal();
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.field && S.draft) { S.draft[t.dataset.field] = t.value; updatePreview(); }
+  if (t.id === 'search') {
+    S.q = t.value; const pos = t.selectionStart; render();
+    const s = $('#search'); if (s) { s.focus(); s.setSelectionRange(pos, pos); }
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.draft) closeModal(); });
+document.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, btn = f.querySelector('button[type=submit]');
+  if (f.id === 'authForm') {
+    const d = Object.fromEntries(new FormData(f));
+    btn.disabled = true;
+    try {
+      if (S.authMode === 'signup') {
+        S.pendingName = d.name.trim();
+        const cred = await auth.createUserWithEmailAndPassword(d.email.trim(), d.password);
+        await cred.user.updateProfile({ displayName: S.pendingName });
+      } else await auth.signInWithEmailAndPassword(d.email.trim(), d.password);
+    } catch (er) { renderAuth(friendly(er)); }
+  }
+  if (f.id === 'fundsForm') {
+    const amount = Number($('#amount').value);
+    if (!(amount > 0)) return toast('Enter a valid amount.', 'err');
+    btn.disabled = true;
+    try { await api('adv.addFunds', { amount }); toast('Funds added.'); await refresh(true); }
+    catch (er) { toast(er.message, 'err'); btn.disabled = false; }
+  }
+});
+</script>
+</body>
+</html>
