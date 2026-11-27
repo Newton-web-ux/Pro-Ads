@@ -63,6 +63,9 @@ main{padding:28px 34px 60px;max-width:1280px;width:100%}
 .b-active,.b-paid{background:var(--ok-soft);color:var(--ok)}
 .b-paused,.b-pending{background:var(--warn-soft);color:var(--warn)}
 .b-rejected{background:var(--bad-soft);color:var(--bad)}
+.b-search{background:var(--accent-soft);color:var(--accent)}
+.b-display{background:#f1ece3;color:#7a5a1f}
+.hint{color:var(--muted);font-size:11.5px;margin-top:5px;line-height:1.45}
 table{width:100%;border-collapse:collapse}
 th{text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
 td{padding:11px 10px;border-bottom:1px solid #eff0ea;vertical-align:middle}
@@ -172,6 +175,7 @@ const ctr = (c, i) => i ? c / i * 100 : 0;
 const SIZES = ['300x250', '728x90', '320x50', '160x600', '300x600'];
 const CATEGORIES = ['any', 'technology', 'education', 'finance', 'lifestyle', 'gaming', 'news', 'health'];
 const METHODS = { upi: 'UPI', bank: 'Bank transfer', paypal: 'PayPal' };
+const sizeLabel = u => u.kind === 'search' ? 'Search ads' : u.size;
 
 function toast(msg, type = '') {
   const t = document.createElement('div');
@@ -340,7 +344,7 @@ function vOverview() {
     ${top.length ? `<div class="tw"><table>
       <thead><tr><th>Ad unit</th><th>Status</th><th class="num">Earnings</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">CTR</th></tr></thead>
       <tbody>${top.map(u => `<tr>
-        <td class="name"><b>${esc(u.name)}</b><span>${esc(u.domain)} · ${esc(u.size)}</span></td>
+        <td class="name"><b>${esc(u.name)}</b><span>${esc(u.domain)} · ${esc(sizeLabel(u))}</span></td>
         <td><span class="badge b-${u.status}">${u.status}</span></td>
         <td class="num">${fmt.m(u.p.earnings)}</td><td class="num">${fmt.n(u.p.impressions)}</td>
         <td class="num">${fmt.n(u.p.clicks)}</td><td class="num">${fmt.p(ctr(u.p.clicks, u.p.impressions))}</td></tr>`).join('')}</tbody>
@@ -378,7 +382,7 @@ function vUnits() {
   const st = S.stats || { byUnit: {} };
   return `
   <div class="head">
-    <div><h1>Ad units</h1><p>Each unit is a placement on your site with its own tag.</p></div>
+    <div><h1>Ad units</h1><p>Each unit is a banner or a sponsored-search box on your site, with its own tag.</p></div>
     <button class="btn pri" data-action="newunit">+ New ad unit</button>
   </div>
   <div class="card">
@@ -389,8 +393,8 @@ function vUnits() {
         return `<tr>
         <td class="name"><b>${esc(u.name)}</b><span>${esc(u.domain)} · <span class="mono">${esc(u.id)}</span></span></td>
         <td><span class="badge b-${u.status}">${u.status}</span></td>
-        <td class="mono" style="font-size:13px">${esc(u.size)}</td>
-        <td style="text-transform:capitalize">${esc(u.category)}</td>
+        <td class="mono" style="font-size:13px">${esc(sizeLabel(u))}</td>
+        <td style="text-transform:capitalize">${u.kind === 'search' ? '—' : esc(u.category)}</td>
         <td class="num">${fmt.m(p.earnings)}</td><td class="num">${fmt.n(p.impressions)}</td><td class="num">${fmt.p(ctr(p.clicks, p.impressions))}</td>
         <td style="white-space:nowrap;text-align:right">
           <button class="btn sm" data-action="tag" data-id="${u.id}">Get tag</button>
@@ -407,7 +411,7 @@ function vPayouts() {
   const st = S.stats || { balance: 0, paid: 0, pending: 0 };
   const min = S.cfg.minPayout, can = st.balance >= min;
   return `
-  <div class="head"><div><h1>Payouts</h1><p>You earn ${Math.round(S.cfg.revShare * 100)}% of every ad dollar served on your units. Minimum payout ${fmt.m(min, 0)}.</p></div></div>
+  <div class="head"><div><h1>Payouts</h1><p>You earn ${Math.round(S.cfg.revShare * 100)}% of every rupee of ad revenue served on your units. Minimum payout ${fmt.m(min, 0)}.</p></div></div>
   <div class="grid kpis">
     <div class="card kpi"><div class="l">Available</div><div class="v">${fmt.m(st.balance)}</div></div>
     <div class="card kpi"><div class="l">Pending</div><div class="v">${fmt.m(st.pending)}</div></div>
@@ -438,20 +442,28 @@ function vPayouts() {
    ===================================================================== */
 function openUnit(id) {
   const u = id ? S.units.find(x => x.id === id) : null;
-  S.draft = u ? { ...u } : { name: '', domain: '', size: '300x250', category: 'any' };
-  const d = S.draft, opt = (arr, v) => arr.map(x => `<option value="${x}" ${x === v ? 'selected' : ''}>${x}</option>`).join('');
+  S.draft = u ? { ...u } : { kind: 'display', name: '', domain: '', size: '300x250', category: 'any' };
+  renderUnit();
+}
+function renderUnit() {
+  const d = S.draft, isNew = !d.id, srch = d.kind === 'search';
+  const opt = (arr, v) => arr.map(x => `<option value="${x}" ${x === v ? 'selected' : ''}>${x}</option>`).join('');
   $('#modal').innerHTML = `
   <div class="overlay"><div class="modal" role="dialog" aria-modal="true">
-    <div class="mh"><h2>${u ? 'Edit ad unit' : 'New ad unit'}</h2><button class="x" data-action="close" aria-label="Close">×</button></div>
+    <div class="mh"><h2>${isNew ? 'New ad unit' : 'Edit ad unit'}</h2><button class="x" data-action="close" aria-label="Close">×</button></div>
     <div class="mb">
-      <div class="f"><label>Unit name</label><input type="text" data-field="name" maxlength="60" value="${esc(d.name)}" placeholder="Blog sidebar"></div>
+      ${isNew ? `<div class="f"><label>Unit type</label><select data-field="kind">
+        <option value="display" ${srch ? '' : 'selected'}>Display banner — image ad in a fixed size</option>
+        <option value="search" ${srch ? 'selected' : ''}>Search box — sponsored text ads for keyword searches</option></select></div>`
+      : `<p class="hint" style="margin:0 0 14px"><span class="badge b-${d.kind}">${d.kind}</span> unit — type can't be changed after creation.</p>`}
+      <div class="f"><label>Unit name</label><input type="text" data-field="name" maxlength="60" value="${esc(d.name)}" placeholder="${srch ? 'Site search' : 'Blog sidebar'}"></div>
       <div class="f"><label>Website domain</label><input type="text" data-field="domain" maxlength="100" value="${esc(d.domain)}" placeholder="example.com"></div>
       <div class="cols2">
-        <div class="f"><label>Ad size</label><select data-field="size">${opt(SIZES, d.size)}</select></div>
+        ${srch ? '' : `<div class="f"><label>Ad size</label><select data-field="size">${opt(SIZES, d.size)}</select></div>`}
         <div class="f"><label>Content category</label><select data-field="category">${opt(CATEGORIES, d.category)}</select></div>
       </div>
     </div>
-    <div class="mf"><button class="btn" data-action="close">Cancel</button><button class="btn pri" data-action="saveunit">${u ? 'Save changes' : 'Create unit'}</button></div>
+    <div class="mf"><button class="btn" data-action="close">Cancel</button><button class="btn pri" data-action="saveunit">${isNew ? 'Create unit' : 'Save changes'}</button></div>
   </div></div>`;
 }
 function tagCode(u) {
@@ -464,8 +476,11 @@ function openTag(id) {
   <div class="overlay"><div class="modal wide" role="dialog" aria-modal="true">
     <div class="mh"><h2>Ad tag · ${esc(u.name)}</h2><button class="x" data-action="close" aria-label="Close">×</button></div>
     <div class="mb">
-      <p style="color:var(--muted);margin-bottom:12px">Paste this where the ${esc(u.size)} ad should appear on <b style="color:var(--ink)">${esc(u.domain)}</b>. Impressions are counted once the ad is at least 50% visible for one second.</p>
+      <p style="color:var(--muted);margin-bottom:12px">${u.kind === 'search'
+        ? `Paste this where the search box should appear on <b style="color:var(--ink)">${esc(u.domain)}</b>. Visitors type a query and see sponsored text ads that match it.`
+        : `Paste this where the ${esc(u.size)} ad should appear on <b style="color:var(--ink)">${esc(u.domain)}</b>.`} Impressions are counted once an ad is at least 50% visible for one second.</p>
       <pre class="code">${esc(S.draft._tag)}</pre>
+      ${u.kind === 'search' ? `<p class="hint">Already have a search field? Add <span class="mono">data-input="#your-input-id"</span> to the script tag and ads will appear for that field's searches instead of showing a new box.</p>` : ''}
     </div>
     <div class="mf"><button class="btn" data-action="close">Close</button><button class="btn pri" data-action="copytag">Copy code</button></div>
   </div></div>`;
@@ -519,7 +534,10 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('input', e => {
   const t = e.target;
-  if (t.dataset.field && S.draft) S.draft[t.dataset.field] = t.value;
+  if (t.dataset.field && S.draft) {
+    S.draft[t.dataset.field] = t.value;
+    if (t.dataset.field === 'kind') renderUnit();
+  }
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.draft) closeModal(); });
 document.addEventListener('submit', async e => {
