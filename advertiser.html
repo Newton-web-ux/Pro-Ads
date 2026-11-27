@@ -48,9 +48,9 @@ main{padding:28px 34px 60px;max-width:1280px;width:100%}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
 .card h3{font-size:15px;font-weight:700;margin-bottom:12px}
 .grid{display:grid;gap:14px}
-.kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:14px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(165px,1fr));margin-bottom:14px}
 .kpi .l{color:var(--muted);font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
-.kpi .v{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;margin-top:6px;letter-spacing:-.02em}
+.kpi .v{font-family:'DM Mono',monospace;font-size:23px;font-weight:500;margin-top:6px;letter-spacing:-.02em}
 .kpi .s{color:var(--muted);font-size:12px;margin-top:2px}
 .btn{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:8px;font-weight:600;transition:.15s}
 .btn:hover{border-color:#c9c7bf;background:#fafaf8}
@@ -65,9 +65,8 @@ main{padding:28px 34px 60px;max-width:1280px;width:100%}
 .b-active{background:var(--ok-soft);color:var(--ok)}
 .b-paused{background:var(--warn-soft);color:var(--warn)}
 .b-completed{background:#ececf1;color:#555a66}
-.b-pending{background:var(--warn-soft);color:var(--warn)}
-.b-paid{background:var(--ok-soft);color:var(--ok)}
-.b-rejected{background:var(--bad-soft);color:var(--bad)}
+.b-search{background:var(--accent-soft);color:var(--accent)}
+.b-display{background:#f1ece3;color:#7a5a1f}
 table{width:100%;border-collapse:collapse}
 th{text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
 td{padding:11px 10px;border-bottom:1px solid #f0eee8;vertical-align:middle}
@@ -83,20 +82,37 @@ td.num,th.num{text-align:right;font-family:'DM Mono',monospace;font-size:13px}
 input[type=text],input[type=email],input[type=password],input[type=number],input[type=date],input[type=url],select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 11px;outline:none;transition:.15s}
 input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 textarea{resize:vertical;min-height:70px}
+textarea.kw{min-height:120px;font-family:'DM Mono',monospace;font-size:13px}
 label{display:block;font-size:12px;font-weight:600;color:#3d4148;margin-bottom:5px}
 .f{margin-bottom:14px}
 .f small{color:var(--muted);font-size:11px;float:right;font-weight:400}
+.hint{color:var(--muted);font-size:11.5px;margin-top:5px;line-height:1.45}
 .cols2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .chartbox{height:280px;position:relative}
+.sec{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--line)}
+.tabs{display:flex;gap:8px;margin-bottom:18px}
+.tab{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;text-align:left}
+.tab b{display:block;font-size:13px}
+.tab span{color:var(--muted);font-size:11.5px}
+.tab.on{border-color:var(--accent);background:var(--accent-soft)}
+.days{display:flex;gap:6px;flex-wrap:wrap}
+.day{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;margin:0;cursor:pointer;background:#fff}
+.day input{accent-color:var(--accent)}
+.kq{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:5px 0;border-bottom:1px solid #e3e1da}
+.kq:last-child{border-bottom:0}
+.qs{font-family:'DM Mono',monospace;font-size:12px;padding:1px 8px;border-radius:999px}
+.q-hi{background:var(--ok-soft);color:var(--ok)}.q-mid{background:var(--warn-soft);color:var(--warn)}.q-lo{background:var(--bad-soft);color:var(--bad)}
+pre.code{background:#14161a;color:#dfe3ff;padding:14px;border-radius:10px;overflow:auto;font-family:'DM Mono',monospace;font-size:12.5px;line-height:1.6;white-space:pre-wrap;word-break:break-all;margin-bottom:10px}
+.steps{counter-reset:s;list-style:none}
+.steps li{counter-increment:s;position:relative;padding:0 0 18px 38px}
+.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;display:grid;place-items:center;font-size:13px}
 
 /* Modal + toasts */
 .overlay{position:fixed;inset:0;background:rgba(20,22,26,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;overflow:auto}
-.modal{background:#fff;border-radius:16px;width:100%;max-width:900px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}
-.modal.sm{max-width:480px}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:940px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}
 .mh{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:2}
 .mh h2{font-size:18px}
 .mb{padding:22px;display:grid;grid-template-columns:1.15fr 1fr;gap:26px}
-.mb.one{grid-template-columns:1fr}
 .mf{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:#fff}
 .pv{background:#f0efea;border-radius:12px;padding:18px;position:sticky;top:76px}
 .pv h4{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
@@ -126,15 +142,14 @@ label{display:block;font-size:12px;font-weight:600;color:#3d4148;margin-bottom:5
   .nav{display:flex;gap:2px;flex-wrap:wrap}
   main{padding:20px 16px 50px}
   .mb{grid-template-columns:1fr}.pv{position:static}
+  .pgrid{grid-template-columns:1fr!important}
 }
 </style>
 </head>
 <body>
 
-<!-- ============ AUTH ============ -->
 <div id="auth" class="auth hidden"></div>
 
-<!-- ============ APP ============ -->
 <div id="app" class="app hidden">
   <aside class="side">
     <div class="brand"><i></i>Pro Ads <small>Advertiser</small></div>
@@ -153,20 +168,22 @@ label{display:block;font-size:12px;font-weight:600;color:#3d4148;margin-bottom:5
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 /* =====================================================================
-   CONFIG — fill these in
+   CONFIG
    ===================================================================== */
 const CONFIG = {
   firebase: {
-  apiKey: "AIzaSyCpxW6vMzAcDor8LbPv7pH4WH7NKMGL8Ls",
-  authDomain: "pro-ads-4ffce.firebaseapp.com",
-  projectId: "pro-ads-4ffce",
-  storageBucket: "pro-ads-4ffce.firebasestorage.app",
-  messagingSenderId: "644579940361",
-  appId: "1:644579940361:web:38133781b69657b8ad80d8"
+    apiKey: "AIzaSyCpxW6vMzAcDor8LbPv7pH4WH7NKMGL8Ls",
+    authDomain: "pro-ads-4ffce.firebaseapp.com",
+    projectId: "pro-ads-4ffce",
+    storageBucket: "pro-ads-4ffce.firebasestorage.app",
+    messagingSenderId: "644579940361",
+    appId: "1:644579940361:web:38133781b69657b8ad80d8"
   },
   gasUrl:   'https://script.google.com/macros/s/AKfycbx2_ze9Bm5zb09ygy28MAsi3rfaB5yV7ka7PVWyLR_OOmXUhwNKsyAmhuuFw_xI3W1yBg/exec',
   currency: 'INR',
-  publisherUrl: 'publisher.html'
+  publisherUrl: 'publisher.html',
+  proconvUrl: new URL('proconv.js', location.href).href,   // where proconv.js is hosted
+  reserveCpc: 0.5
 };
 
 /* =====================================================================
@@ -184,6 +201,10 @@ const ctr = (c, i) => i ? c / i * 100 : 0;
 const todayStr = () => new Date().toLocaleDateString('en-CA');
 const SIZES = ['300x250', '728x90', '320x50', '160x600', '300x600'];
 const CATEGORIES = ['any', 'technology', 'education', 'finance', 'lifestyle', 'gaming', 'news', 'health'];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const hostOf = u => String(u || '').replace(/^https?:\/\//i, '').replace(/^www\./i, '').split(/[\/?#]/)[0];
+const qsClass = q => q >= 7 ? 'q-hi' : q >= 4 ? 'q-mid' : 'q-lo';
+const hh = n => String(n).padStart(2, '0') + ':00';
 
 function toast(msg, type = '') {
   const t = document.createElement('div');
@@ -207,7 +228,19 @@ async function api(action, payload = {}) {
   return j.data;
 }
 
-/* ---------- Ad renderer (mirrors proads.js) ---------- */
+/* ---------- Keyword text <-> list (Google syntax: [exact], "phrase", broad) ---------- */
+function parseKwText(t) {
+  return String(t || '').split('\n').map(s => s.trim()).filter(Boolean).map(s => {
+    let m = 'broad';
+    if (/^\[.*\]$/.test(s)) { m = 'exact'; s = s.slice(1, -1); }
+    else if (/^".*"$/.test(s)) { m = 'phrase'; s = s.slice(1, -1); }
+    return { t: s.trim(), m };
+  }).filter(k => k.t);
+}
+const kwLabel = k => k.m === 'exact' ? `[${k.t}]` : k.m === 'phrase' ? `"${k.t}"` : k.t;
+const parseNegText = t => String(t || '').split('\n').map(s => s.trim().replace(/^-+/, '').trim()).filter(Boolean);
+
+/* ---------- Ad renderers (mirror proads.js) ---------- */
 function adHTML(a, size) {
   const [w, h] = size.split('x').map(Number), wide = w / h >= 3, tiny = h <= 60;
   const f = 'font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;';
@@ -218,11 +251,29 @@ function adHTML(a, size) {
   if (wide) return `<div style="${box}display:flex;align-items:center;gap:10px;padding:8px 10px">${img}<div style="flex:1;min-width:0"><div style="font-size:${tiny ? 13 : 15}px;font-weight:700;color:#14161a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(a.title)}</div>${tiny ? '' : `<div style="font-size:12px;color:#5b6068;margin-top:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${esc(a.body)}</div>`}</div>${cta}${tag}</div>`;
   return `<div style="${box}display:flex;flex-direction:column">${img}<div style="padding:12px;display:flex;flex-direction:column;gap:6px;flex:1;min-height:0"><div style="font-size:16px;font-weight:700;color:#14161a;line-height:1.25">${esc(a.title)}</div><div style="font-size:13px;color:#5b6068;line-height:1.4;overflow:hidden;flex:1">${esc(a.body)}</div><div>${cta}</div></div>${tag}</div>`;
 }
-function previewHTML(c) {
+function displayPreview(c) {
   const size = c.size || '300x250', [w, h] = size.split('x').map(Number);
   const k = Math.min(1, 420 / w, 300 / h);
   const ad = { title: c.title || 'Your headline', body: c.body || 'Your ad description appears here.', imageUrl: c.imageUrl };
   return `<div style="width:${w * k}px;height:${h * k}px"><div style="transform:scale(${k});transform-origin:0 0;width:${w}px;height:${h}px">${adHTML(ad, size)}</div></div>`;
+}
+function searchPreview(d) {
+  const kw = parseKwText(d.kwText)[0], q = kw ? kw.t : 'your keyword', host = hostOf(d.targetUrl) || 'example.com';
+  return `<div style="background:#fff;border-radius:10px;padding:14px;font-family:Arial,sans-serif">
+    <div style="border:1px solid #dfe1e5;border-radius:22px;padding:8px 14px;font-size:14px;color:#202124;margin-bottom:12px">${esc(q)}</div>
+    <div style="font-size:12px;color:#202124"><b style="border:1px solid #202124;border-radius:4px;padding:0 4px;font-size:10px;margin-right:6px">Ad</b>${esc(host)}</div>
+    <div style="color:#1a0dab;font-size:18px;line-height:1.3;margin:3px 0">${esc(d.title || 'Headline one')}${d.title2 ? ' | ' + esc(d.title2) : ''}</div>
+    <div style="font-size:13px;color:#4d5156;line-height:1.5">${esc(d.body || 'Your description appears here.')}</div></div>`;
+}
+const previewHTML = d => d.type === 'search' ? searchPreview(d) : displayPreview(d);
+
+/* ---------- Targeting summary ---------- */
+function targeting(c) {
+  const parts = [];
+  parts.push(c.devices === 'mobile' ? 'Mobile' : c.devices === 'desktop' ? 'Desktop' : 'All devices');
+  parts.push(c.days ? c.days.split(',').map(d => DAYS[+d]).join(' ') : 'Every day');
+  if (c.hourTo > 0) parts.push(`${hh(c.hourFrom)}–${hh(c.hourTo)}`);
+  return parts.join(' · ');
 }
 
 /* =====================================================================
@@ -231,8 +282,8 @@ function previewHTML(c) {
 const S = {
   authMode: 'signin', pendingName: '',
   user: null, view: 'overview', days: 14, metric: 'spend',
-  campaigns: [], stats: null, tx: [],
-  filter: 'all', q: '', draft: null, busy: false
+  campaigns: [], stats: null, tx: [], terms: [],
+  filter: 'all', q: '', draft: null, busy: false, snips: []
 };
 let chart = null;
 
@@ -248,7 +299,7 @@ function renderAuth(err = '') {
     <div class="box">
       <div class="brand"><i></i>Pro Ads <small>Advertiser</small></div>
       <h1>${up ? 'Create your account' : 'Welcome back'}</h1>
-      <p class="sub">${up ? 'Launch campaigns and reach publishers in minutes.' : 'Sign in to manage your campaigns.'}</p>
+      <p class="sub">${up ? 'Launch campaigns and reach customers in minutes.' : 'Sign in to manage your campaigns.'}</p>
       <form id="authForm" autocomplete="on">
         ${up ? `<div class="f"><label>Full name</label><input type="text" name="name" required autocomplete="name"></div>` : ''}
         <div class="f"><label>Email</label><input type="email" name="email" required autocomplete="email"></div>
@@ -284,6 +335,7 @@ auth.onAuthStateChanged(async u => {
   try {
     const r = await api('init', { name: S.pendingName || u.displayName || '' });
     S.user = r.user;
+    if (r.config && r.config.reserveCpc) CONFIG.reserveCpc = r.config.reserveCpc;
     $('#auth').classList.add('hidden');
     $('#app').classList.remove('hidden');
     route();
@@ -300,10 +352,10 @@ auth.onAuthStateChanged(async u => {
 async function refresh(silent = false) {
   if (!silent) { S.busy = true; render(); }
   try {
-    const [campaigns, stats, tx] = await Promise.all([
-      api('adv.campaigns'), api('adv.stats', { days: S.days }), api('adv.transactions')
+    const [campaigns, stats, tx, terms] = await Promise.all([
+      api('adv.campaigns'), api('adv.stats', { days: S.days }), api('adv.transactions'), api('adv.terms')
     ]);
-    S.campaigns = campaigns; S.stats = stats; S.tx = tx;
+    S.campaigns = campaigns; S.stats = stats; S.tx = tx; S.terms = terms;
     S.user.balance = stats.balance;
   } catch (e) { toast(e.message, 'err'); }
   S.busy = false;
@@ -313,12 +365,15 @@ async function refresh(silent = false) {
 /* =====================================================================
    VIEWS
    ===================================================================== */
+const svg = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const ICONS = {
-  overview: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10m6 10V4m6 16v-7m4 7H2"/></svg>',
-  campaigns: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l16-7v16L3 13zM7 14v5"/></svg>',
-  billing: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg>'
+  overview: svg('<path d="M4 20V10m6 10V4m6 16v-7m4 7H2"/>'),
+  campaigns: svg('<path d="M3 11l16-7v16L3 13zM7 14v5"/>'),
+  terms: svg('<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>'),
+  conversions: svg('<path d="M4 12l5 5L20 6"/>'),
+  billing: svg('<rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/>')
 };
-const NAV = [['overview', 'Overview'], ['campaigns', 'Campaigns'], ['billing', 'Billing']];
+const NAV = [['overview', 'Overview'], ['campaigns', 'Campaigns'], ['terms', 'Search terms'], ['conversions', 'Conversions'], ['billing', 'Billing']];
 
 function route() {
   const h = location.hash.replace('#', '');
@@ -335,16 +390,19 @@ function render() {
     <a data-action="logout">Sign out</a>`;
   const v = $('#view');
   if (S.busy && !S.stats) { v.innerHTML = `<div class="grid kpis">${'<div class="skel"></div>'.repeat(4)}</div><div class="skel" style="height:300px"></div>`; return; }
-  v.innerHTML = ({ overview: vOverview, campaigns: vCampaigns, billing: vBilling })[S.view]();
+  v.innerHTML = ({ overview: vOverview, campaigns: vCampaigns, terms: vTerms, conversions: vConversions, billing: vBilling })[S.view]();
   if (S.view === 'overview') drawChart();
 }
+
+function perf(id) { return (S.stats && S.stats.byCampaign[id]) || { impressions: 0, clicks: 0, spend: 0, conversions: 0, convValue: 0 }; }
+const avgQs = c => c.type === 'search' && c.keywords.length ? Math.round(c.keywords.reduce((a, k) => a + k.qs, 0) / c.keywords.length) : 0;
 
 function vOverview() {
   const st = S.stats; if (!st) return '';
   const t = st.totals, c = ctr(t.clicks, t.impressions);
-  const cpc = t.clicks ? t.spend / t.clicks : 0, ecpm = t.impressions ? t.spend / t.impressions * 1000 : 0;
-  const top = S.campaigns.map(x => ({ ...x, p: st.byCampaign[x.id] || { impressions: 0, clicks: 0, spend: 0 } }))
-    .sort((a, b) => b.p.spend - a.p.spend).slice(0, 5);
+  const cpc = t.clicks ? t.spend / t.clicks : 0;
+  const cpa = t.conversions ? t.spend / t.conversions : 0, roas = t.spend ? t.convValue / t.spend : 0;
+  const top = S.campaigns.map(x => ({ ...x, p: perf(x.id) })).sort((a, b) => b.p.spend - a.p.spend).slice(0, 5);
   return `
   <div class="head">
     <div><h1>Overview</h1><p>Performance across all your campaigns.</p></div>
@@ -355,28 +413,29 @@ function vOverview() {
   </div>
   <div class="grid kpis">
     <div class="card kpi"><div class="l">Balance</div><div class="v">${fmt.m(st.balance)}</div><div class="s"><a href="#billing" style="color:var(--accent);font-weight:600;text-decoration:none">Add funds</a></div></div>
-    <div class="card kpi"><div class="l">Spend</div><div class="v">${fmt.m(t.spend)}</div><div class="s">Last ${S.days} days</div></div>
-    <div class="card kpi"><div class="l">Impressions</div><div class="v">${fmt.n(t.impressions)}</div><div class="s">eCPM ${fmt.m(ecpm)}</div></div>
+    <div class="card kpi"><div class="l">Cost</div><div class="v">${fmt.m(t.spend)}</div><div class="s">Last ${S.days} days</div></div>
+    <div class="card kpi"><div class="l">Impressions</div><div class="v">${fmt.n(t.impressions)}</div><div class="s">CTR ${fmt.p(c)}</div></div>
     <div class="card kpi"><div class="l">Clicks</div><div class="v">${fmt.n(t.clicks)}</div><div class="s">Avg. CPC ${fmt.m(cpc)}</div></div>
-    <div class="card kpi"><div class="l">CTR</div><div class="v">${fmt.p(c)}</div><div class="s">Clicks / impressions</div></div>
+    <div class="card kpi"><div class="l">Conversions</div><div class="v">${fmt.n(t.conversions)}</div><div class="s">Cost / conv. ${t.conversions ? fmt.m(cpa) : '—'}</div></div>
+    <div class="card kpi"><div class="l">ROAS</div><div class="v">${t.spend ? roas.toFixed(2) + '×' : '—'}</div><div class="s">Conv. value ${fmt.m(t.convValue, 0)}</div></div>
   </div>
   <div class="card" style="margin-bottom:14px">
     <div class="row" style="justify-content:space-between;margin-bottom:10px">
       <h3 style="margin:0">Trend</h3>
-      <div class="row">${['spend', 'impressions', 'clicks'].map(m => `<button class="chip ${S.metric === m ? 'on' : ''}" data-action="metric" data-m="${m}">${m[0].toUpperCase() + m.slice(1)}</button>`).join('')}</div>
+      <div class="row">${['spend', 'impressions', 'clicks', 'conversions'].map(m => `<button class="chip ${S.metric === m ? 'on' : ''}" data-action="metric" data-m="${m}">${m === 'spend' ? 'Cost' : m[0].toUpperCase() + m.slice(1)}</button>`).join('')}</div>
     </div>
     <div class="chartbox"><canvas id="chart"></canvas></div>
   </div>
   <div class="card">
-    <h3>Top campaigns <span style="color:var(--muted);font-weight:400">· by spend, last ${S.days} days</span></h3>
+    <h3>Top campaigns <span style="color:var(--muted);font-weight:400">· by cost, last ${S.days} days</span></h3>
     ${top.length ? `<div class="tw"><table>
-      <thead><tr><th>Campaign</th><th>Status</th><th class="num">Spend</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">CTR</th></tr></thead>
+      <thead><tr><th>Campaign</th><th>Status</th><th class="num">Cost</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">CTR</th><th class="num">Conv.</th></tr></thead>
       <tbody>${top.map(x => `<tr>
-        <td class="name"><b>${esc(x.name)}</b><span>${x.model} · ${esc(x.size)}</span></td>
+        <td class="name"><b>${esc(x.name)}</b><span><span class="badge b-${x.type}">${x.type}</span></span></td>
         <td><span class="badge b-${x.status}">${x.status}</span></td>
         <td class="num">${fmt.m(x.p.spend)}</td><td class="num">${fmt.n(x.p.impressions)}</td>
-        <td class="num">${fmt.n(x.p.clicks)}</td><td class="num">${fmt.p(ctr(x.p.clicks, x.p.impressions))}</td></tr>`).join('')}</tbody>
-    </table></div>` : `<div class="empty"><b>No campaigns yet</b>Create your first campaign to start reaching publishers.</div>`}
+        <td class="num">${fmt.n(x.p.clicks)}</td><td class="num">${fmt.p(ctr(x.p.clicks, x.p.impressions))}</td><td class="num">${fmt.n(x.p.conversions)}</td></tr>`).join('')}</tbody>
+    </table></div>` : `<div class="empty"><b>No campaigns yet</b>Create your first campaign to start reaching customers.</div>`}
   </div>`;
 }
 
@@ -386,13 +445,13 @@ function drawChart() {
   const s = S.stats.series, m = S.metric, isMoney = m === 'spend';
   const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
   chart = new Chart(el, {
-    type: m === 'spend' ? 'line' : 'bar',
+    type: isMoney ? 'line' : 'bar',
     data: {
       labels: s.map(x => x.date.slice(5)),
       datasets: [{
         label: m, data: s.map(x => x[m]),
-        borderColor: accent, backgroundColor: m === 'spend' ? accent + '18' : accent + 'bb',
-        fill: m === 'spend', tension: .35, borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, borderRadius: 4
+        borderColor: accent, backgroundColor: isMoney ? accent + '18' : accent + 'bb',
+        fill: isMoney, tension: .35, borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, borderRadius: 4
       }]
     },
     options: {
@@ -422,16 +481,18 @@ function vCampaigns() {
       <input type="text" id="search" placeholder="Search campaigns…" value="${esc(S.q)}" style="max-width:240px">
     </div>
     ${list.length ? `<div class="tw"><table>
-      <thead><tr><th>Campaign</th><th>Status</th><th>Bid</th><th>Budget</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">CTR</th><th></th></tr></thead>
+      <thead><tr><th>Campaign</th><th>Status</th><th>Bid</th><th>Budget</th><th class="num">QS</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">CTR</th><th class="num">Conv.</th><th></th></tr></thead>
       <tbody>${list.map(c => {
         const pct = Math.min(100, c.totalBudget ? c.spent / c.totalBudget * 100 : 0);
         const canToggle = c.status === 'active' || c.status === 'paused';
+        const q = avgQs(c);
         return `<tr>
-        <td class="name"><b>${esc(c.name)}</b><span>${esc(c.size)} · ${esc(c.category)} · ${esc(c.startDate)}${c.endDate ? ' → ' + esc(c.endDate) : ''}</span></td>
+        <td class="name"><b>${esc(c.name)}</b><span><span class="badge b-${c.type}">${c.type}</span> ${c.type === 'search' ? c.keywords.length + ' keyword' + (c.keywords.length === 1 ? '' : 's') : esc(c.size)} · ${esc(targeting(c))}</span></td>
         <td><span class="badge b-${c.status}">${c.status}</span></td>
-        <td class="mono" style="font-size:13px">${fmt.m(c.bid)} <span style="color:var(--muted)">${c.model}</span></td>
+        <td class="mono" style="font-size:13px">${fmt.m(c.bid)} <span style="color:var(--muted)">${c.type === 'search' ? 'max CPC' : c.model}</span></td>
         <td style="min-width:150px"><span class="mono" style="font-size:12px">${fmt.m(c.spent)} / ${fmt.m(c.totalBudget, 0)}</span><div class="bar"><i style="width:${pct}%"></i></div></td>
-        <td class="num">${fmt.n(c.impressions)}</td><td class="num">${fmt.n(c.clicks)}</td><td class="num">${fmt.p(ctr(c.clicks, c.impressions))}</td>
+        <td class="num">${q ? `<span class="qs ${qsClass(q)}">${q}/10</span>` : '—'}</td>
+        <td class="num">${fmt.n(c.impressions)}</td><td class="num">${fmt.n(c.clicks)}</td><td class="num">${fmt.p(ctr(c.clicks, c.impressions))}</td><td class="num">${fmt.n(c.convs)}</td>
         <td style="white-space:nowrap;text-align:right">
           ${canToggle ? `<button class="btn sm" data-action="toggle" data-id="${c.id}" data-to="${c.status === 'active' ? 'paused' : 'active'}">${c.status === 'active' ? 'Pause' : 'Resume'}</button>` : ''}
           <button class="btn sm" data-action="edit" data-id="${c.id}">Edit</button>
@@ -442,10 +503,58 @@ function vCampaigns() {
   </div>`;
 }
 
+function vTerms() {
+  const name = id => (S.campaigns.find(c => c.id === id) || { name: '—' }).name;
+  return `
+  <div class="head"><div><h1>Search terms</h1><p>The searches that triggered your search ads. Add poor performers as negative keywords in the campaign.</p></div></div>
+  <div class="card">
+    ${S.terms.length ? `<div class="tw"><table>
+      <thead><tr><th>Search term</th><th>Campaign</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">CTR</th><th class="num">Cost</th><th>Last seen</th></tr></thead>
+      <tbody>${S.terms.map(t => `<tr>
+        <td><b style="font-weight:600">${esc(t.query)}</b></td><td>${esc(name(t.campaignId))}</td>
+        <td class="num">${fmt.n(t.impressions)}</td><td class="num">${fmt.n(t.clicks)}</td><td class="num">${fmt.p(ctr(t.clicks, t.impressions))}</td>
+        <td class="num">${fmt.m(t.spend)}</td><td>${fmt.d(t.lastSeen)}</td></tr>`).join('')}</tbody></table></div>`
+      : `<div class="empty"><b>No search terms yet</b>They appear once your search ads are shown on a publisher's search box.</div>`}
+  </div>`;
+}
+
+function vConversions() {
+  S.snips = [
+    `<script src="${CONFIG.proconvUrl}" data-api="${CONFIG.gasUrl}"><\/script>`,
+    `<script>proconv.track(499);<\/script>`
+  ];
+  const rows = S.campaigns.map(c => ({ c, p: perf(c.id) })).filter(x => x.p.clicks || x.p.conversions);
+  return `
+  <div class="head"><div><h1>Conversions</h1><p>Track purchases and sign-ups that come from your ads.</p></div></div>
+  <div class="grid pgrid" style="grid-template-columns:minmax(300px,480px) 1fr;align-items:start">
+    <div class="card">
+      <h3>Set up tracking</h3>
+      <ol class="steps">
+        <li><b>Add this to every page of your website</b>, before the closing &lt;/head&gt; or &lt;/body&gt;. It remembers which ad click brought the visitor.
+          <pre class="code" style="margin-top:8px">${esc(S.snips[0])}</pre><button class="btn sm" data-action="copy" data-i="0">Copy code</button></li>
+        <li><b>On your thank-you / order-confirmation page</b>, add this under the first snippet. Replace 499 with the order value, or use <span class="mono">proconv.track()</span> for sign-ups.
+          <pre class="code" style="margin-top:8px">${esc(S.snips[1])}</pre><button class="btn sm" data-action="copy" data-i="1">Copy code</button></li>
+        <li><b>Done.</b> Conversions are credited to the campaign whose ad was clicked, within 30 days of the click. Each click counts once.</li>
+      </ol>
+      <p class="hint">Host <span class="mono">proconv.js</span> next to this page (same folder on GitHub Pages).</p>
+    </div>
+    <div class="card">
+      <h3>Results by campaign <span style="color:var(--muted);font-weight:400">· last ${S.days} days</span></h3>
+      ${rows.length ? `<div class="tw"><table>
+        <thead><tr><th>Campaign</th><th class="num">Clicks</th><th class="num">Conv.</th><th class="num">Conv. rate</th><th class="num">Value</th><th class="num">Cost / conv.</th><th class="num">ROAS</th></tr></thead>
+        <tbody>${rows.map(({ c, p }) => `<tr>
+          <td class="name"><b>${esc(c.name)}</b></td>
+          <td class="num">${fmt.n(p.clicks)}</td><td class="num">${fmt.n(p.conversions)}</td><td class="num">${fmt.p(ctr(p.conversions, p.clicks))}</td>
+          <td class="num">${fmt.m(p.convValue, 0)}</td><td class="num">${p.conversions ? fmt.m(p.spend / p.conversions) : '—'}</td><td class="num">${p.spend && p.convValue ? (p.convValue / p.spend).toFixed(2) + '×' : '—'}</td></tr>`).join('')}</tbody></table></div>`
+        : `<div class="empty"><b>No data yet</b>Results appear once your ads receive clicks.</div>`}
+    </div>
+  </div>`;
+}
+
 function vBilling() {
   return `
   <div class="head"><div><h1>Billing</h1><p>Prepaid balance. Campaigns pause automatically when funds run out.</p></div></div>
-  <div class="grid" style="grid-template-columns:minmax(260px,360px) 1fr;align-items:start">
+  <div class="grid pgrid" style="grid-template-columns:minmax(260px,360px) 1fr;align-items:start">
     <div class="card">
       <div class="kpi"><div class="l">Available balance</div><div class="v" style="font-size:30px">${fmt.m(S.user.balance)}</div></div>
       <form id="fundsForm" style="margin-top:18px">
@@ -467,72 +576,141 @@ function vBilling() {
 /* =====================================================================
    CAMPAIGN EDITOR
    ===================================================================== */
-const blank = () => ({
-  name: '', model: 'CPC', bid: 5, dailyBudget: 500, totalBudget: 5000,
-  size: '300x250', category: 'any', startDate: todayStr(), endDate: '',
-  title: '', body: '', imageUrl: '', targetUrl: 'https://'
+const blank = (type = 'search') => ({
+  type, name: '', model: 'CPC', bid: 5, dailyBudget: 500, totalBudget: 5000,
+  size: type === 'search' ? 'search' : '300x250', category: 'any', startDate: todayStr(), endDate: '',
+  title: '', title2: '', body: '', imageUrl: '', targetUrl: 'https://',
+  kwText: '', negText: '', devices: 'all', dayArr: [0, 1, 2, 3, 4, 5, 6], hourFrom: 0, hourTo: 24
 });
 
 function openEditor(id) {
   const c = id ? S.campaigns.find(x => x.id === id) : null;
-  S.draft = c ? { ...c } : blank();
-  const d = S.draft;
+  if (c) {
+    S.draft = {
+      ...blank(c.type), ...c, type: c.type,
+      kwText: c.keywords.map(kwLabel).join('\n'), negText: (c.negatives || []).join('\n'),
+      devices: c.devices || 'all',
+      dayArr: c.days ? c.days.split(',').map(Number) : [0, 1, 2, 3, 4, 5, 6],
+      hourFrom: c.hourTo ? c.hourFrom : 0, hourTo: c.hourTo ? c.hourTo : 24, title2: c.title2 || ''
+    };
+    S.draft._kq = c.keywords;
+  } else S.draft = blank('search');
+  renderEditor();
+}
+
+function renderEditor() {
+  const d = S.draft, isNew = !d.id, srch = d.type === 'search';
   const opt = (arr, v) => arr.map(x => `<option value="${x}" ${x === v ? 'selected' : ''}>${x}</option>`).join('');
+  const hrsFrom = Array.from({ length: 24 }, (_, i) => `<option value="${i}" ${+d.hourFrom === i ? 'selected' : ''}>${hh(i)}</option>`).join('');
+  const hrsTo = Array.from({ length: 24 }, (_, i) => i + 1).map(i => `<option value="${i}" ${+d.hourTo === i ? 'selected' : ''}>${hh(i)}</option>`).join('');
   $('#modal').innerHTML = `
   <div class="overlay"><div class="modal" role="dialog" aria-modal="true">
-    <div class="mh"><h2>${c ? 'Edit campaign' : 'New campaign'}</h2><button class="x" data-action="close" aria-label="Close">×</button></div>
+    <div class="mh"><h2>${isNew ? 'New campaign' : 'Edit campaign'}</h2><button class="x" data-action="close" aria-label="Close">×</button></div>
     <div class="mb">
       <div>
-        <div class="f"><label>Campaign name</label><input type="text" data-field="name" maxlength="60" value="${esc(d.name)}" placeholder="Diwali sale — retargeting"></div>
-        <div class="cols2">
+        ${isNew ? `<div class="tabs">
+          <button type="button" class="tab ${srch ? 'on' : ''}" data-action="type" data-t="search"><b>Search ads</b><span>Text ads shown for keywords</span></button>
+          <button type="button" class="tab ${srch ? '' : 'on'}" data-action="type" data-t="display"><b>Display banner</b><span>Image ads on publisher sites</span></button>
+        </div>` : `<p class="hint" style="margin:0 0 14px"><span class="badge b-${d.type}">${d.type}</span> campaign — type can't be changed after creation.</p>`}
+        <div class="f"><label>Campaign name</label><input type="text" data-field="name" maxlength="60" value="${esc(d.name)}" placeholder="${srch ? 'Running shoes — search' : 'Diwali sale — banners'}"></div>
+
+        ${srch ? `<div class="f"><label>Max CPC (${CONFIG.currency}) <small>min ${fmt.m(CONFIG.reserveCpc)}</small></label><input type="number" data-field="bid" min="${CONFIG.reserveCpc}" step="0.01" value="${d.bid}">
+          <div class="hint">The most you'll pay per click. An auction decides the real price: you pay just above what's needed to beat the next advertiser, so it's usually lower.</div></div>`
+        : `<div class="cols2">
           <div class="f"><label>Pricing model</label><select data-field="model"><option value="CPC" ${d.model === 'CPC' ? 'selected' : ''}>CPC — pay per click</option><option value="CPM" ${d.model === 'CPM' ? 'selected' : ''}>CPM — pay per 1,000 views</option></select></div>
           <div class="f"><label>Bid (${CONFIG.currency}) <small id="bidHint"></small></label><input type="number" data-field="bid" min="0.01" step="0.01" value="${d.bid}"></div>
-        </div>
+        </div>`}
+
         <div class="cols2">
           <div class="f"><label>Daily budget</label><input type="number" data-field="dailyBudget" min="1" step="1" value="${d.dailyBudget}"></div>
           <div class="f"><label>Total budget</label><input type="number" data-field="totalBudget" min="1" step="1" value="${d.totalBudget}"></div>
         </div>
-        <div class="cols2">
+
+        ${srch ? `
+        <div class="f"><label>Keywords <small data-count="kw">${parseKwText(d.kwText).length}/50</small></label>
+          <textarea class="kw" data-field="kwText" placeholder="running shoes&#10;&quot;trail running shoes&quot;&#10;[buy nike pegasus]">${esc(d.kwText)}</textarea>
+          <div class="hint">One per line. <b>running shoes</b> = broad (all words, any order) · <b>"running shoes"</b> = phrase · <b>[running shoes]</b> = exact.</div></div>
+        <div class="f"><label>Negative keywords <small>optional</small></label>
+          <textarea data-field="negText" placeholder="free&#10;used&#10;repair">${esc(d.negText)}</textarea>
+          <div class="hint">One per line. Your ad won't show for searches containing these words.</div></div>`
+        : `<div class="cols2">
           <div class="f"><label>Ad size</label><select data-field="size">${opt(SIZES, d.size)}</select></div>
           <div class="f"><label>Category</label><select data-field="category">${opt(CATEGORIES, d.category)}</select></div>
-        </div>
+        </div>`}
+
         <div class="cols2">
           <div class="f"><label>Start date</label><input type="date" data-field="startDate" value="${esc(d.startDate)}"></div>
           <div class="f"><label>End date <small>optional</small></label><input type="date" data-field="endDate" value="${esc(d.endDate)}"></div>
         </div>
-        <div class="f"><label>Headline <small data-count="title">${(d.title || '').length}/40</small></label><input type="text" data-field="title" maxlength="40" value="${esc(d.title)}"></div>
+
+        <div class="sec">Targeting</div>
+        <div class="f"><label>Devices</label><select data-field="devices">
+          <option value="all" ${d.devices === 'all' ? 'selected' : ''}>All devices</option>
+          <option value="mobile" ${d.devices === 'mobile' ? 'selected' : ''}>Mobile only</option>
+          <option value="desktop" ${d.devices === 'desktop' ? 'selected' : ''}>Desktop &amp; tablet only</option></select></div>
+        <div class="f"><label>Days of the week</label><div class="days">${DAYS.map((n, i) => `<label class="day"><input type="checkbox" data-day="${i}" ${d.dayArr.includes(i) ? 'checked' : ''}>${n}</label>`).join('')}</div></div>
+        <div class="cols2">
+          <div class="f"><label>From</label><select data-field="hourFrom">${hrsFrom}</select></div>
+          <div class="f"><label>To</label><select data-field="hourTo">${hrsTo}</select></div>
+        </div>
+        <div class="hint" style="margin:-6px 0 4px">Schedule uses India time (IST). 00:00 → 24:00 means all day; a later “From” than “To” runs overnight.</div>
+
+        <div class="sec">Ad</div>
+        ${srch ? `
+        <div class="cols2">
+          <div class="f"><label>Headline 1 <small data-count="title">${(d.title || '').length}/30</small></label><input type="text" data-field="title" maxlength="30" value="${esc(d.title)}"></div>
+          <div class="f"><label>Headline 2 <small data-count="title2">${(d.title2 || '').length}/30</small></label><input type="text" data-field="title2" maxlength="30" value="${esc(d.title2)}"></div>
+        </div>` : `
+        <div class="f"><label>Headline <small data-count="title">${(d.title || '').length}/40</small></label><input type="text" data-field="title" maxlength="40" value="${esc(d.title)}"></div>`}
         <div class="f"><label>Description <small data-count="body">${(d.body || '').length}/90</small></label><textarea data-field="body" maxlength="90">${esc(d.body)}</textarea></div>
-        <div class="f"><label>Image URL <small>optional · https</small></label><input type="url" data-field="imageUrl" value="${esc(d.imageUrl)}" placeholder="https://…/banner.jpg"></div>
-        <div class="f"><label>Landing page URL</label><input type="url" data-field="targetUrl" value="${esc(d.targetUrl)}"></div>
+        ${srch ? '' : `<div class="f"><label>Image URL <small>optional · https</small></label><input type="url" data-field="imageUrl" value="${esc(d.imageUrl)}" placeholder="https://…/banner.jpg"></div>`}
+        <div class="f"><label>Landing page URL</label><input type="url" data-field="targetUrl" value="${esc(d.targetUrl)}">
+          ${srch ? '<div class="hint">Use https for a better Quality Score.</div>' : ''}</div>
       </div>
-      <div><div class="pv"><h4>Live preview · <span id="pvSize">${esc(d.size)}</span></h4><div id="pv">${previewHTML(d)}</div></div></div>
+      <div><div class="pv"><h4>Live preview${srch ? '' : ' · <span id="pvSize">' + esc(d.size) + '</span>'}</h4><div id="pv">${previewHTML(d)}</div>
+        ${srch ? `<h4 style="margin-top:18px">Keyword quality score</h4><div id="kq">${kqHTML(d)}</div>
+        <p class="hint">Quality Score (1–10) rises with a relevant ad, a precise match type and a good click-through rate. Ad Rank = Max CPC × Quality Score.</p>` : ''}
+      </div></div>
     </div>
-    <div class="mf"><button class="btn" data-action="close">Cancel</button><button class="btn pri" data-action="save" id="saveBtn">${c ? 'Save changes' : 'Create campaign'}</button></div>
+    <div class="mf"><button class="btn" data-action="close">Cancel</button><button class="btn pri" data-action="save" id="saveBtn">${isNew ? 'Create campaign' : 'Save changes'}</button></div>
   </div></div>`;
   hint();
 }
+function kqHTML(d) {
+  const list = d._kq || [];
+  if (!list.length) return '<div class="hint">Calculated after you save the campaign.</div>';
+  return list.map(k => `<div class="kq"><span class="mono">${esc(kwLabel(k))}</span><b class="qs ${qsClass(k.qs)}">${k.qs}/10</b></div>`).join('');
+}
 function hint() {
-  const d = S.draft, el = $('#bidHint'); if (!el) return;
+  const d = S.draft, el = $('#bidHint'); if (!el || d.type === 'search') return;
   const bid = Number(d.bid) || 0;
   el.textContent = d.model === 'CPM' ? `${fmt.m(bid / 1000, 4)} / view` : `${fmt.m(bid * 1000 * .01)} / 1,000 views @ 1% CTR`;
 }
 function updatePreview() {
   const d = S.draft;
-  $('#pv').innerHTML = previewHTML(d); $('#pvSize').textContent = d.size;
-  ['title', 'body'].forEach(k => { const el = $(`[data-count="${k}"]`); if (el) el.textContent = `${(d[k] || '').length}/${k === 'title' ? 40 : 90}`; });
+  $('#pv').innerHTML = previewHTML(d);
+  const sz = $('#pvSize'); if (sz) sz.textContent = d.size;
+  const lim = { title: d.type === 'search' ? 30 : 40, title2: 30, body: 90 };
+  ['title', 'title2', 'body'].forEach(k => { const el = $(`[data-count="${k}"]`); if (el) el.textContent = `${(d[k] || '').length}/${lim[k]}`; });
+  const kw = $('[data-count="kw"]'); if (kw) kw.textContent = `${parseKwText(d.kwText).length}/50`;
   hint();
 }
 function validate(d) {
-  const num = k => Number(d[k]);
+  const num = k => Number(d[k]), srch = d.type === 'search';
   if (!d.name.trim()) return 'Enter a campaign name.';
   if (!(num('bid') > 0)) return 'Bid must be greater than zero.';
+  if (srch && num('bid') < CONFIG.reserveCpc) return `Max CPC must be at least ${CONFIG.reserveCpc}.`;
   if (!(num('dailyBudget') > 0) || !(num('totalBudget') > 0)) return 'Budgets must be greater than zero.';
   if (num('totalBudget') < num('dailyBudget')) return 'Total budget must be at least the daily budget.';
+  if (srch && !parseKwText(d.kwText).length) return 'Add at least one keyword.';
+  if (srch && parseKwText(d.kwText).length > 50) return 'Up to 50 keywords per campaign.';
   if (!d.startDate) return 'Choose a start date.';
   if (d.endDate && d.endDate < d.startDate) return 'End date must be after the start date.';
-  if (!d.title.trim()) return 'Enter a headline.';
+  if (!d.dayArr.length) return 'Select at least one day.';
+  if (+d.hourFrom === +d.hourTo) return 'Schedule start and end hours must differ.';
+  if (!d.title.trim()) return srch ? 'Enter headline 1.' : 'Enter a headline.';
   if (!d.body.trim()) return 'Enter a description.';
-  if (d.imageUrl && !/^https:\/\//i.test(d.imageUrl)) return 'Image URL must start with https://';
+  if (!srch && d.imageUrl && !/^https:\/\//i.test(d.imageUrl)) return 'Image URL must start with https://';
   if (!/^https?:\/\/.+\..+/i.test(d.targetUrl)) return 'Enter a valid landing page URL.';
   return '';
 }
@@ -554,8 +732,17 @@ const actions = {
   filter: t => { S.filter = t.dataset.f; render(); },
   new: () => openEditor(),
   edit: t => openEditor(t.dataset.id),
+  type: t => {
+    const ty = t.dataset.t; if (S.draft.type === ty) return;
+    S.draft.type = ty; S.draft.size = ty === 'search' ? 'search' : '300x250'; S.draft.model = 'CPC';
+    renderEditor();
+  },
   close: closeModal,
   quick: t => { $('#amount').value = t.dataset.a; },
+  copy: async t => {
+    try { await navigator.clipboard.writeText(S.snips[+t.dataset.i]); t.textContent = 'Copied ✓'; setTimeout(() => t.textContent = 'Copy code', 1800); }
+    catch { toast('Copy failed — select the code and copy manually.', 'err'); }
+  },
   toggle: async t => {
     try { await api('adv.status', { id: t.dataset.id, status: t.dataset.to }); toast(t.dataset.to === 'active' ? 'Campaign resumed.' : 'Campaign paused.'); await refresh(true); }
     catch (e) { toast(e.message, 'err'); }
@@ -568,11 +755,21 @@ const actions = {
   save: async t => {
     const d = S.draft, err = validate(d);
     if (err) return toast(err, 'err');
+    const srch = d.type === 'search';
+    const payload = {
+      id: d.id, type: d.type, name: d.name, model: srch ? 'CPC' : d.model, bid: +d.bid,
+      dailyBudget: +d.dailyBudget, totalBudget: +d.totalBudget, size: d.size, category: d.category,
+      startDate: d.startDate, endDate: d.endDate, title: d.title, title2: d.title2, body: d.body,
+      imageUrl: d.imageUrl, targetUrl: d.targetUrl,
+      keywords: srch ? parseKwText(d.kwText) : [], negatives: srch ? parseNegText(d.negText) : [],
+      devices: d.devices, days: d.dayArr.length === 7 ? '' : [...d.dayArr].sort().join(','),
+      hourFrom: +d.hourFrom, hourTo: +d.hourTo
+    };
     t.disabled = true; t.textContent = 'Saving…';
     try {
-      await api('adv.save', { campaign: { ...d, bid: +d.bid, dailyBudget: +d.dailyBudget, totalBudget: +d.totalBudget } });
+      await api('adv.save', { campaign: payload });
       closeModal(); toast('Campaign saved.'); await refresh(true);
-    } catch (e) { toast(e.message, 'err'); t.disabled = false; t.textContent = 'Save'; }
+    } catch (e) { toast(e.message, 'err'); t.disabled = false; t.textContent = 'Save changes'; }
   }
 };
 
@@ -588,6 +785,15 @@ document.addEventListener('input', e => {
     S.q = t.value; const pos = t.selectionStart; render();
     const s = $('#search'); if (s) { s.focus(); s.setSelectionRange(pos, pos); }
   }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset.day !== undefined && S.draft) {
+    const n = +t.dataset.day, set = new Set(S.draft.dayArr);
+    if (t.checked) set.add(n); else set.delete(n);
+    S.draft.dayArr = [...set].sort();
+  }
+  if (t.dataset.field && S.draft && t.tagName === 'SELECT') { S.draft[t.dataset.field] = t.value; updatePreview(); }
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.draft) closeModal(); });
 document.addEventListener('submit', async e => {
